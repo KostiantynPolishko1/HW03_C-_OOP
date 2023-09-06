@@ -1,0 +1,3 @@
+﻿  HW03_C++_OOP.cpp
+D:\ISTEP\C++_OOP\Projects\HW03_C++_OOP\HW03_C++_OOP.cpp(13,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  HW03_C++_OOP.vcxproj -> D:\ISTEP\C++_OOP\Projects\HW03_C++_OOP\x64\Debug\HW03_C++_OOP.exe
