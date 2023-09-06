@@ -1,7 +1,13 @@
 #include <iostream>
 #include <time.h>
 
-int checkValue();
+int checkValue(void);
+
+void fill_arr(int* const arr, const int& sizeRef, const int* const pmin, const int* const pmax);
+
+void reverse_arr(int* const arr, const int& sizeRef);
+
+void print_arr(int* const arr, const int& sizeRef);
 
 int main(void)
 {
@@ -32,12 +38,22 @@ int main(void)
 		exit(0);
 	}
 
+	do {
 	cout << "\nrange of values in arr:\n";
-	cout << "\tmin -> ";
-	minV = checkValue();
 
-	cout << "\tmax -> ";
-	maxV = checkValue();
+		cout << "\tmin -> ";
+		minV = checkValue();
+
+		cout << "\tmax -> ";
+		maxV = checkValue();
+
+		if (abs(maxV) - abs(minV) >= size)
+			break;
+
+		system("CLS");
+		cout << "ERROR! range (min...max) < size\n";
+
+	} while (true);
 
 	//swap function
 	if (minV > maxV) {
@@ -47,29 +63,24 @@ int main(void)
 	}
 
 	//fill arr by random values
-	int varV = maxV - minV;
+	fill_arr(arr, size, &minV, &maxV);
 
-	for (short i = 0; i < size;)
-	{
-		int arrV = minV + (rand() % varV);
+	cout << "\nbefore reverse (start -> end)\n\tarr size " << size << ": ";
+	print_arr(arr, size);
 
-		for (short j = 0; j < i; j++)
-			if (arrV == arr[j])
-				break;
+	//function of reverse
+	reverse_arr(arr, size);
 
-		arr[i] = arrV;
-		i++;
-	}
+	cout << "\nafter reverse (end <- start)\n\tarr size " << size << ": ";
+	print_arr(arr, size);
 
-	cout << "\nbefore reverse\n\tarr: ";
-	for (short i = 0; i < size; i++)
-		cout << arr[i] << ", ";
+	delete[] arr;
+	arr = nullptr;
 
-	cout << "\n";
     return 0;
 }
 
-int checkValue()
+int checkValue(void)
 {
 	int a = 0;
 	while (true) // the cycle continues until the user enters the correct value
@@ -88,3 +99,42 @@ int checkValue()
 		}
 	}
 }
+
+void fill_arr(int* const arr, const int& sizeRef, const int* const pmin, const int* const pmax) {
+	int varV = *pmax - *pmin;
+
+	for (short i = 0; i < sizeRef;)
+	{
+		int arrV = *pmin + (rand() % varV);
+		bool flag = false;
+
+		for (short j = 0; j < i; j++)
+			if (arrV == *(arr + j)) {
+				flag = true;
+				break;
+			}
+
+		if (!flag) {
+			*(arr + i) = arrV;
+			i++;
+		}
+	}
+};
+
+void reverse_arr(int* const arr, const int& sizeRef) {
+
+	for (short i = 0; i < (int)sizeRef / 2; i++) 
+	{
+		int tempV = *(arr + i);
+		*(arr + i) = *(arr + ((sizeRef - 1) - i));
+		*(arr + ((sizeRef - 1) - i)) = tempV;
+	}
+};
+
+void print_arr(int *const arr, const int &sizeRef) {
+
+	for (short i = 0; i < sizeRef; i++)
+		std::cout << *(arr + i) << ", ";
+	
+	std::cout << "\n";
+};
